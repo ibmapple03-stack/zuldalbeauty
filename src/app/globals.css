@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+:root {
+  --brand-taupe: #a68f7b;
+  --brand-taupe-dark: #8a7361;
+  --brand-black: #1a1a1a;
+  --brand-cream: #f2ede7;
+  --brand-white: #ffffff;
+  --brand-sage: #a7b39a;
+  --brand-sage-dark: #869374;
+  --brand-blush: #ebc4c4;
+  --background: var(--brand-cream);
+  --foreground: var(--brand-black);
+}
+
+@theme inline {
+  --color-brand-taupe: var(--brand-taupe);
+  --color-brand-taupe-dark: var(--brand-taupe-dark);
+  --color-brand-black: var(--brand-black);
+  --color-brand-cream: var(--brand-cream);
+  --color-brand-white: var(--brand-white);
+  --color-brand-sage: var(--brand-sage);
+  --color-brand-sage-dark: var(--brand-sage-dark);
+  --color-brand-blush: var(--brand-blush);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-poppins);
+  --font-heading: var(--font-playfair);
+  --font-accent: var(--font-montserrat);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--brand-sage);
+  color: var(--brand-white);
+}
+
+.container-page {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container-page {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
