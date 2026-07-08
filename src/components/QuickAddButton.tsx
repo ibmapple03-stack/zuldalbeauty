@@ -19,7 +19,7 @@ export default function QuickAddButton({ productId }: { productId: string }) {
   return (
     <button
       onClick={handleClick}
-      className="inline-flex items-center gap-1.5 rounded-full bg-brand-black px-3.5 py-2 text-xs font-accent font-medium text-brand-white transition-colors hover:bg-brand-taupe cursor-pointer"
+      className="inline-flex items-center gap-1.5 rounded-full bg-brand-brown px-3.5 py-2 text-xs font-accent font-medium text-brand-white transition-colors hover:bg-brand-gold cursor-pointer"
       aria-label="Add to cart"
     >
       <Icon name="cart" className="h-3.5 w-3.5" />

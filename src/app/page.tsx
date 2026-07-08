@@ -26,12 +26,12 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-brand-black">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-taupe/30 blur-3xl" />
-        <div className="pointer-events-none absolute -left-16 bottom-0 h-72 w-72 rounded-full bg-brand-sage/20 blur-3xl" />
+      <section className="relative overflow-hidden bg-brand-brown">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-gold/30 blur-3xl" />
+        <div className="pointer-events-none absolute -left-16 bottom-0 h-72 w-72 rounded-full bg-brand-gold/20 blur-3xl" />
         <div className="container-page relative grid gap-10 py-16 md:grid-cols-2 md:py-24">
           <div className="flex flex-col justify-center">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-sage/20 px-3.5 py-1.5 text-xs font-accent font-medium text-brand-sage">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-gold/20 px-3.5 py-1.5 text-xs font-accent font-medium text-brand-gold">
               <Icon name="heart" className="h-3.5 w-3.5" />
               Your Trusted Beauty Marketplace
             </span>
@@ -48,7 +48,7 @@ export default function HomePage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/shop"
-                className="rounded-full bg-brand-white px-6 py-3 font-accent text-sm font-semibold text-brand-black hover:bg-brand-taupe hover:text-brand-white transition-colors"
+                className="rounded-full bg-brand-white px-6 py-3 font-accent text-sm font-semibold text-brand-black hover:bg-brand-gold hover:text-brand-white transition-colors"
               >
                 Shop All Products
               </Link>
@@ -68,7 +68,7 @@ export default function HomePage() {
                 href={`/shop/${cat.slug}`}
                 className="rounded-2xl border border-brand-white/10 bg-brand-white/5 p-4 backdrop-blur transition-colors hover:bg-brand-white/10"
               >
-                <Icon name={cat.icon} className="h-6 w-6 text-brand-sage" />
+                <Icon name={cat.icon} className="h-6 w-6 text-brand-gold" />
                 <p className="mt-3 font-heading text-lg text-brand-white">
                   {cat.name}
                 </p>
@@ -83,7 +83,7 @@ export default function HomePage() {
       <section className="container-page py-16">
         <div className="mb-8 flex items-end justify-between">
           <div>
-            <p className="font-accent text-xs font-semibold uppercase tracking-widest text-brand-taupe">
+            <p className="font-accent text-xs font-semibold uppercase tracking-widest text-brand-gold">
               Shop by Section
             </p>
             <h2 className="mt-2 font-heading text-3xl text-brand-black">
@@ -104,7 +104,7 @@ export default function HomePage() {
           <div className="container-page">
             <div className="mb-8 flex items-end justify-between">
               <div>
-                <p className="font-accent text-xs font-semibold uppercase tracking-widest text-brand-taupe">
+                <p className="font-accent text-xs font-semibold uppercase tracking-widest text-brand-gold">
                   Handpicked For You
                 </p>
                 <h2 className="mt-2 font-heading text-3xl text-brand-black">
@@ -113,7 +113,7 @@ export default function HomePage() {
               </div>
               <Link
                 href="/shop"
-                className="hidden font-accent text-sm font-semibold text-brand-taupe hover:underline md:inline"
+                className="hidden font-accent text-sm font-semibold text-brand-gold hover:underline md:inline"
               >
                 View all products &rarr;
               </Link>
@@ -130,7 +130,7 @@ export default function HomePage() {
       {/* Trust badges */}
       <section className="container-page py-16">
         <div className="mb-8 text-center">
-          <p className="font-accent text-xs font-semibold uppercase tracking-widest text-brand-taupe">
+          <p className="font-accent text-xs font-semibold uppercase tracking-widest text-brand-gold">
             Brand Positioning
           </p>
           <h2 className="mt-2 font-heading text-3xl text-brand-black">
@@ -142,9 +142,9 @@ export default function HomePage() {
       </section>
 
       {/* Promise banner */}
-      <section className="bg-brand-sage/15 py-14">
+      <section className="bg-brand-gold/15 py-14">
         <div className="container-page flex flex-col items-center gap-4 text-center">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-sage text-brand-white">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-gold text-brand-white">
             <Icon name="shield" className="h-7 w-7" />
           </span>
           <h3 className="font-heading text-2xl text-brand-black">
@@ -155,7 +155,7 @@ export default function HomePage() {
             everyday essentials, everything we offer is chosen with care so
             you can shop with confidence and love what you use.
           </p>
-          <p className="font-heading italic text-brand-taupe">
+          <p className="font-heading italic text-brand-gold">
             Beauty for everyone. Wellness for life.
           </p>
         </div>

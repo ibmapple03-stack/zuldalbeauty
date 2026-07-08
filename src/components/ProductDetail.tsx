@@ -69,7 +69,7 @@ export default function ProductDetail({ id }: { id: string }) {
         </p>
         <Link
           href="/shop"
-          className="rounded-full bg-brand-black px-5 py-2.5 font-accent text-sm font-semibold text-brand-white hover:bg-brand-taupe"
+          className="rounded-full bg-brand-brown px-5 py-2.5 font-accent text-sm font-semibold text-brand-white hover:bg-brand-gold"
         >
           Back to Shop
         </Link>
@@ -83,11 +83,11 @@ export default function ProductDetail({ id }: { id: string }) {
     <div className="container-page py-10">
       <BackButton fallbackHref={`/shop/${product.category}`} className="mb-4" />
       <div className="mb-6 flex items-center gap-1.5 text-xs text-brand-black/50">
-        <Link href="/" className="hover:text-brand-taupe">
+        <Link href="/" className="hover:text-brand-gold">
           Home
         </Link>
         <span>/</span>
-        <Link href={`/shop/${product.category}`} className="hover:text-brand-taupe">
+        <Link href={`/shop/${product.category}`} className="hover:text-brand-gold">
           {category?.name}
         </Link>
         <span>/</span>
@@ -111,7 +111,7 @@ export default function ProductDetail({ id }: { id: string }) {
                   aria-label={`Show photo ${index + 1}`}
                   className={`h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-colors ${
                     index === activeImage
-                      ? "border-brand-taupe"
+                      ? "border-brand-gold"
                       : "border-transparent hover:border-brand-black/15"
                   }`}
                 >
@@ -128,7 +128,7 @@ export default function ProductDetail({ id }: { id: string }) {
         </div>
 
         <div className="flex flex-col">
-          <p className="font-accent text-xs font-semibold uppercase tracking-wide text-brand-taupe">
+          <p className="font-accent text-xs font-semibold uppercase tracking-wide text-brand-gold">
             {product.brand}
           </p>
           <h1 className="mt-2 font-heading text-3xl text-brand-black md:text-4xl">
@@ -157,7 +157,7 @@ export default function ProductDetail({ id }: { id: string }) {
             {product.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-brand-sage/15 px-3 py-1 text-xs font-accent font-medium text-brand-sage-dark"
+                className="rounded-full bg-brand-gold/15 px-3 py-1 text-xs font-accent font-medium text-brand-brown"
               >
                 {tag}
               </span>
@@ -176,19 +176,19 @@ export default function ProductDetail({ id }: { id: string }) {
 
           <div className="mt-8 grid grid-cols-3 gap-3 border-t border-brand-black/10 pt-6 text-center">
             <div className="flex flex-col items-center gap-1.5">
-              <Icon name="shield" className="h-5 w-5 text-brand-sage-dark" />
+              <Icon name="shield" className="h-5 w-5 text-brand-brown" />
               <span className="text-[11px] text-brand-black/60">
                 Safe &amp; Effective
               </span>
             </div>
             <div className="flex flex-col items-center gap-1.5">
-              <Icon name="truck" className="h-5 w-5 text-brand-sage-dark" />
+              <Icon name="truck" className="h-5 w-5 text-brand-brown" />
               <span className="text-[11px] text-brand-black/60">
                 Fast Delivery
               </span>
             </div>
             <div className="flex flex-col items-center gap-1.5">
-              <Icon name="heart" className="h-5 w-5 text-brand-sage-dark" />
+              <Icon name="heart" className="h-5 w-5 text-brand-brown" />
               <span className="text-[11px] text-brand-black/60">
                 Cruelty Free
               </span>

@@ -28,7 +28,7 @@ export default function AddToCartButton({
           <button
             type="button"
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-            className="flex h-11 w-11 items-center justify-center text-lg text-brand-black/70 hover:text-brand-taupe"
+            className="flex h-11 w-11 items-center justify-center text-lg text-brand-black/70 hover:text-brand-gold"
             aria-label="Decrease quantity"
           >
             −
@@ -39,7 +39,7 @@ export default function AddToCartButton({
           <button
             type="button"
             onClick={() => setQuantity((q) => q + 1)}
-            className="flex h-11 w-11 items-center justify-center text-lg text-brand-black/70 hover:text-brand-taupe"
+            className="flex h-11 w-11 items-center justify-center text-lg text-brand-black/70 hover:text-brand-gold"
             aria-label="Increase quantity"
           >
             +
@@ -50,7 +50,7 @@ export default function AddToCartButton({
           type="button"
           onClick={handleAdd}
           disabled={disabled}
-          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-brand-black px-6 py-3 font-accent text-sm font-semibold text-brand-white transition-colors hover:bg-brand-taupe disabled:cursor-not-allowed disabled:bg-brand-black/30"
+          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-brand-brown px-6 py-3 font-accent text-sm font-semibold text-brand-white transition-colors hover:bg-brand-gold disabled:cursor-not-allowed disabled:bg-brand-black/30"
         >
           <Icon name="cart" className="h-4 w-4" />
           {disabled ? "Out of Stock" : "Add to Cart"}
@@ -58,9 +58,9 @@ export default function AddToCartButton({
       </div>
 
       {added && (
-        <p className="text-sm text-brand-sage-dark">
+        <p className="text-sm text-brand-brown">
           Added to cart —{" "}
-          <Link href="/cart" className="underline hover:text-brand-taupe">
+          <Link href="/cart" className="underline hover:text-brand-gold">
             view cart
           </Link>
         </p>

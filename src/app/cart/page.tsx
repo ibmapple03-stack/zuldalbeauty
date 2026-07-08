@@ -35,7 +35,7 @@ export default function CartPage() {
         </p>
         <Link
           href="/shop"
-          className="rounded-full bg-brand-black px-6 py-3 font-accent text-sm font-semibold text-brand-white hover:bg-brand-taupe"
+          className="rounded-full bg-brand-brown px-6 py-3 font-accent text-sm font-semibold text-brand-white hover:bg-brand-gold"
         >
           Start Shopping
         </Link>
@@ -72,11 +72,11 @@ export default function CartPage() {
                 <div className="flex flex-1 flex-col justify-between">
                   <div className="flex justify-between gap-3">
                     <div>
-                      <p className="font-accent text-[11px] uppercase tracking-wide text-brand-taupe">
+                      <p className="font-accent text-[11px] uppercase tracking-wide text-brand-gold">
                         {product.brand}
                       </p>
                       <Link href={`/product/${product.id}`}>
-                        <h3 className="font-heading text-base text-brand-black hover:text-brand-taupe">
+                        <h3 className="font-heading text-base text-brand-black hover:text-brand-gold">
                           {product.name}
                         </h3>
                       </Link>
@@ -97,7 +97,7 @@ export default function CartPage() {
                         onClick={() =>
                           updateQuantity(item.productId, item.quantity - 1)
                         }
-                        className="flex h-8 w-8 items-center justify-center text-brand-black/70 hover:text-brand-taupe"
+                        className="flex h-8 w-8 items-center justify-center text-brand-black/70 hover:text-brand-gold"
                         aria-label="Decrease quantity"
                       >
                         −
@@ -109,7 +109,7 @@ export default function CartPage() {
                         onClick={() =>
                           updateQuantity(item.productId, item.quantity + 1)
                         }
-                        className="flex h-8 w-8 items-center justify-center text-brand-black/70 hover:text-brand-taupe"
+                        className="flex h-8 w-8 items-center justify-center text-brand-black/70 hover:text-brand-gold"
                         aria-label="Increase quantity"
                       >
                         +
@@ -139,7 +139,7 @@ export default function CartPage() {
               <span>{shipping === 0 ? "Free" : formatNaira(shipping)}</span>
             </div>
             {shipping > 0 && (
-              <p className="text-xs text-brand-sage-dark">
+              <p className="text-xs text-brand-brown">
                 Add {formatNaira(FREE_SHIPPING_THRESHOLD - subtotal)} more for free shipping
               </p>
             )}
@@ -150,13 +150,13 @@ export default function CartPage() {
           </div>
           <Link
             href="/checkout"
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-brand-black px-6 py-3 font-accent text-sm font-semibold text-brand-white hover:bg-brand-taupe"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-brand-brown px-6 py-3 font-accent text-sm font-semibold text-brand-white hover:bg-brand-gold"
           >
             Proceed to Checkout
           </Link>
           <Link
             href="/shop"
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-brand-black/15 px-6 py-3 font-accent text-sm font-semibold text-brand-black hover:border-brand-taupe hover:text-brand-taupe"
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-brand-black/15 px-6 py-3 font-accent text-sm font-semibold text-brand-black hover:border-brand-gold hover:text-brand-gold"
           >
             Continue Shopping
           </Link>

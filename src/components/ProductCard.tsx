@@ -14,7 +14,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <ProductImage product={product} className="aspect-[4/5] w-full" />
       </Link>
       {product.compareAtPrice && (
-        <span className="absolute left-3 top-3 rounded-full bg-brand-blush px-2.5 py-1 text-[10px] font-accent font-semibold uppercase tracking-wide text-brand-black">
+        <span className="absolute left-3 top-3 rounded-full bg-brand-gold px-2.5 py-1 text-[10px] font-accent font-semibold uppercase tracking-wide text-brand-black">
           Sale
         </span>
       )}
@@ -24,11 +24,11 @@ export default function ProductCard({ product }: { product: Product }) {
         </span>
       )}
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <p className="font-accent text-[11px] uppercase tracking-wide text-brand-taupe">
+        <p className="font-accent text-[11px] uppercase tracking-wide text-brand-gold">
           {product.brand}
         </p>
         <Link href={`/product/${product.id}`}>
-          <h3 className="font-heading text-base leading-snug text-brand-black line-clamp-2 hover:text-brand-taupe">
+          <h3 className="font-heading text-base leading-snug text-brand-black line-clamp-2 hover:text-brand-gold">
             {product.name}
           </h3>
         </Link>

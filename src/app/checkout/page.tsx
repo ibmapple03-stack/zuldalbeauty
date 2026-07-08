@@ -7,6 +7,7 @@ import { useCart } from "@/context/CartContext";
 import { useCartProducts } from "@/hooks/useCartProducts";
 import { formatNaira } from "@/lib/format";
 import { supabase } from "@/lib/supabase";
+import { payWithPaystack, PaystackChannel } from "@/lib/paystack";
 import ProductImage from "@/components/ProductImage";
 import Icon from "@/components/icons";
 import BackButton from "@/components/BackButton";
@@ -15,12 +16,29 @@ const SHIPPING_FEE = 2500;
 const FREE_SHIPPING_THRESHOLD = 50000;
 
 type PaymentMethod = "card" | "transfer" | "delivery";
+type OnlinePaymentMethod = "card" | "transfer";
+
+const PAYSTACK_CHANNELS: Record<OnlinePaymentMethod, PaystackChannel[]> = {
+  card: ["card"],
+  transfer: ["bank_transfer"],
+};
 
 const paymentOptions: { value: PaymentMethod; label: string; hint: string }[] = [
-  { value: "card", label: "Debit / Credit Card", hint: "Visa, Mastercard, Verve" },
-  { value: "transfer", label: "Bank Transfer", hint: "Instant transfer confirmation" },
+  { value: "card", label: "Debit / Credit Card", hint: "Visa, Mastercard, Verve — via Paystack" },
+  { value: "transfer", label: "Bank Transfer", hint: "Instant confirmation — via Paystack" },
   { value: "delivery", label: "Pay on Delivery", hint: "Pay cash when it arrives" },
 ];
+
+function isOnlinePayment(method: PaymentMethod): method is OnlinePaymentMethod {
+  return method === "card" || method === "transfer";
+}
+
+interface PendingOrder {
+  id: string;
+  orderNumber: string;
+  email: string;
+  method: OnlinePaymentMethod;
+}
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -28,25 +46,82 @@ export default function CheckoutPage() {
   const { productMap, loading: productsLoading, subtotal } = useCartProducts(items);
   const [payment, setPayment] = useState<PaymentMethod>("card");
   const [placing, setPlacing] = useState(false);
+  const [payingWithPaystack, setPayingWithPaystack] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [pendingOrder, setPendingOrder] = useState<PendingOrder | null>(null);
 
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
   const total = subtotal + shipping;
 
+  async function launchPaystackPayment(order: PendingOrder) {
+    setPayingWithPaystack(true);
+    setSubmitError("");
+
+    try {
+      const result = await payWithPaystack({
+        email: order.email,
+        amountNaira: total,
+        reference: order.orderNumber,
+        channels: PAYSTACK_CHANNELS[order.method],
+        metadata: { order_id: order.id },
+      });
+
+      if (!result) {
+        setSubmitError("Payment was not completed. You can try again below.");
+        setPayingWithPaystack(false);
+        setPlacing(false);
+        return;
+      }
+
+      const verifyRes = await fetch("/api/paystack/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reference: result.reference, orderId: order.id }),
+      });
+      const verifyJson = await verifyRes.json();
+
+      if (!verifyJson.success) {
+        setSubmitError(
+          verifyJson.error ?? "We couldn't confirm your payment. Please try again."
+        );
+        setPayingWithPaystack(false);
+        setPlacing(false);
+        return;
+      }
+
+      clearCart();
+      router.push(`/checkout/success?order=${order.orderNumber}&total=${total}&payment=${order.method}`);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong starting payment.");
+      setPayingWithPaystack(false);
+      setPlacing(false);
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitError("");
+
+    // Retrying after a cancelled/failed Paystack attempt — the order and its
+    // items already exist, just relaunch payment for the same order.
+    if (pendingOrder) {
+      setPlacing(true);
+      await launchPaystackPayment(pendingOrder);
+      return;
+    }
+
     setPlacing(true);
 
     const formData = new FormData(e.currentTarget);
     const orderNumber = `NB-${Date.now().toString().slice(-6)}`;
+    const email = String(formData.get("email") ?? "");
 
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
         order_number: orderNumber,
         customer_name: String(formData.get("name") ?? ""),
-        email: String(formData.get("email") ?? ""),
+        email,
         phone: String(formData.get("phone") ?? ""),
         address: String(formData.get("address") ?? ""),
         city: String(formData.get("city") ?? ""),
@@ -83,6 +158,20 @@ export default function CheckoutPage() {
 
     if (itemsError) {
       console.error("Failed to save order items:", itemsError.message);
+      setSubmitError(
+        itemsError.message.includes("insufficient_stock")
+          ? "One of the items in your cart just sold out. Please update your cart and try again."
+          : "Something went wrong saving your order items. Please try again."
+      );
+      setPlacing(false);
+      return;
+    }
+
+    if (isOnlinePayment(payment)) {
+      const newPendingOrder: PendingOrder = { id: order.id, orderNumber, email, method: payment };
+      setPendingOrder(newPendingOrder);
+      await launchPaystackPayment(newPendingOrder);
+      return;
     }
 
     clearCart();
@@ -106,7 +195,7 @@ export default function CheckoutPage() {
         </p>
         <Link
           href="/shop"
-          className="rounded-full bg-brand-black px-6 py-3 font-accent text-sm font-semibold text-brand-white hover:bg-brand-taupe"
+          className="rounded-full bg-brand-brown px-6 py-3 font-accent text-sm font-semibold text-brand-white hover:bg-brand-gold"
         >
           Start Shopping
         </Link>
@@ -122,7 +211,7 @@ export default function CheckoutPage() {
       </h1>
 
       <form onSubmit={handleSubmit} className="mt-8 grid gap-10 lg:grid-cols-3">
-        <div className="flex flex-col gap-6 lg:col-span-2">
+        <fieldset disabled={Boolean(pendingOrder)} className="flex flex-col gap-6 lg:col-span-2">
           <section className="rounded-2xl border border-brand-black/10 bg-brand-white p-6">
             <h2 className="font-heading text-xl text-brand-black">
               Contact Information
@@ -160,11 +249,11 @@ export default function CheckoutPage() {
               {paymentOptions.map((opt) => (
                 <label
                   key={opt.value}
-                  className={`flex cursor-pointer items-center justify-between rounded-xl border px-4 py-3 transition-colors ${
+                  className={`flex items-center justify-between rounded-xl border px-4 py-3 transition-colors ${
                     payment === opt.value
-                      ? "border-brand-taupe bg-brand-taupe/5"
+                      ? "border-brand-gold bg-brand-gold/5"
                       : "border-brand-black/10"
-                  }`}
+                  } ${pendingOrder ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
                 >
                   <span className="flex items-center gap-3">
                     <input
@@ -173,7 +262,8 @@ export default function CheckoutPage() {
                       value={opt.value}
                       checked={payment === opt.value}
                       onChange={() => setPayment(opt.value)}
-                      className="accent-brand-taupe"
+                      disabled={Boolean(pendingOrder)}
+                      className="accent-brand-gold"
                     />
                     <span>
                       <span className="block text-sm font-medium text-brand-black">
@@ -188,12 +278,13 @@ export default function CheckoutPage() {
               ))}
             </div>
             <p className="mt-4 flex items-center gap-2 text-xs text-brand-black/50">
-              <Icon name="shield" className="h-4 w-4 text-brand-sage-dark" />
-              Your order is saved for real, but no real payment will be
-              processed in this demo.
+              <Icon name="shield" className="h-4 w-4 text-brand-brown" />
+              {pendingOrder
+                ? "Your order is saved — payment method is locked in for this order."
+                : "Card and bank transfer payments are processed securely by Paystack and confirmed instantly. Pay-on-delivery orders are confirmed manually by our team."}
             </p>
           </section>
-        </div>
+        </fieldset>
 
         <div className="h-fit rounded-2xl border border-brand-black/10 bg-brand-white p-6">
           <h2 className="font-heading text-xl text-brand-black">
@@ -247,9 +338,17 @@ export default function CheckoutPage() {
           <button
             type="submit"
             disabled={placing}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-brand-black px-6 py-3 font-accent text-sm font-semibold text-brand-white hover:bg-brand-taupe disabled:opacity-60"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-brand-brown px-6 py-3 font-accent text-sm font-semibold text-brand-white hover:bg-brand-gold disabled:opacity-60"
           >
-            {placing ? "Placing Order..." : `Place Order · ${formatNaira(total)}`}
+            {placing
+              ? payingWithPaystack
+                ? "Waiting for payment..."
+                : pendingOrder
+                  ? "Retrying..."
+                  : "Placing Order..."
+              : pendingOrder
+                ? `Retry Payment · ${formatNaira(total)}`
+                : `Place Order · ${formatNaira(total)}`}
           </button>
         </div>
       </form>
@@ -282,7 +381,7 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
-        className="rounded-lg border border-brand-black/15 bg-brand-cream/40 px-3.5 py-2.5 text-sm text-brand-black placeholder:text-brand-black/30 focus:border-brand-taupe focus:outline-none"
+        className="rounded-lg border border-brand-black/15 bg-brand-cream/40 px-3.5 py-2.5 text-sm text-brand-black placeholder:text-brand-black/30 focus:border-brand-gold focus:outline-none"
       />
     </label>
   );

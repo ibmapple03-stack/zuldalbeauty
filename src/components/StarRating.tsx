@@ -9,7 +9,7 @@ export default function StarRating({
 }) {
   return (
     <div className={`flex items-center gap-1 ${className}`}>
-      <div className="flex text-brand-taupe" aria-hidden="true">
+      <div className="flex text-brand-gold" aria-hidden="true">
         {Array.from({ length: 5 }).map((_, i) => {
           const filled = i + 1 <= Math.round(rating);
           return (

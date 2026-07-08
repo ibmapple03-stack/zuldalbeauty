@@ -1,27 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --brand-taupe: #a68f7b;
-  --brand-taupe-dark: #8a7361;
-  --brand-black: #1a1a1a;
-  --brand-cream: #f2ede7;
+  --brand-brown: #5a3a2e;
+  --brand-black: #2b2b2b;
+  --brand-cream: #f4eae4;
   --brand-white: #ffffff;
-  --brand-sage: #a7b39a;
-  --brand-sage-dark: #869374;
-  --brand-blush: #ebc4c4;
+  --brand-gold: #c8a27a;
+  --brand-gold-dark: #a9835b;
   --background: var(--brand-cream);
   --foreground: var(--brand-black);
 }
 
 @theme inline {
-  --color-brand-taupe: var(--brand-taupe);
-  --color-brand-taupe-dark: var(--brand-taupe-dark);
+  --color-brand-brown: var(--brand-brown);
   --color-brand-black: var(--brand-black);
   --color-brand-cream: var(--brand-cream);
   --color-brand-white: var(--brand-white);
-  --color-brand-sage: var(--brand-sage);
-  --color-brand-sage-dark: var(--brand-sage-dark);
-  --color-brand-blush: var(--brand-blush);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-gold-dark: var(--brand-gold-dark);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-poppins);
@@ -36,7 +32,7 @@ body {
 }
 
 ::selection {
-  background: var(--brand-sage);
+  background: var(--brand-gold);
   color: var(--brand-white);
 }
 

@@ -62,11 +62,11 @@ export default function ShopGrid({
     <div className="container-page py-10">
       <BackButton fallbackHref="/" className="mb-4" />
       <div className="mb-2 flex items-center gap-1.5 text-xs text-brand-black/50">
-        <Link href="/" className="hover:text-brand-taupe">
+        <Link href="/" className="hover:text-brand-gold">
           Home
         </Link>
         <span>/</span>
-        <Link href="/shop" className="hover:text-brand-taupe">
+        <Link href="/shop" className="hover:text-brand-gold">
           Shop
         </Link>
         {activeCategory && (
@@ -94,7 +94,7 @@ export default function ShopGrid({
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
-            className="rounded-full border border-brand-black/15 bg-brand-white px-3.5 py-2 font-accent text-sm text-brand-black focus:border-brand-taupe focus:outline-none"
+            className="rounded-full border border-brand-black/15 bg-brand-white px-3.5 py-2 font-accent text-sm text-brand-black focus:border-brand-gold focus:outline-none"
           >
             {sortOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -110,8 +110,8 @@ export default function ShopGrid({
           href="/shop"
           className={`rounded-full px-4 py-2 text-xs font-accent font-medium transition-colors ${
             !activeCategory
-              ? "bg-brand-black text-brand-white"
-              : "bg-brand-white text-brand-black/70 border border-brand-black/10 hover:border-brand-taupe"
+              ? "bg-brand-brown text-brand-white"
+              : "bg-brand-white text-brand-black/70 border border-brand-black/10 hover:border-brand-gold"
           }`}
         >
           All
@@ -122,8 +122,8 @@ export default function ShopGrid({
             href={`/shop/${cat.slug}`}
             className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-accent font-medium transition-colors ${
               activeCategory?.slug === cat.slug
-                ? "bg-brand-black text-brand-white"
-                : "bg-brand-white text-brand-black/70 border border-brand-black/10 hover:border-brand-taupe"
+                ? "bg-brand-brown text-brand-white"
+                : "bg-brand-white text-brand-black/70 border border-brand-black/10 hover:border-brand-gold"
             }`}
           >
             <Icon name={cat.icon} className="h-3.5 w-3.5" />
@@ -158,7 +158,7 @@ export default function ShopGrid({
                 type="button"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page <= 1}
-                className="rounded-full border border-brand-black/15 px-4 py-2 text-xs font-accent font-medium text-brand-black/70 transition-colors hover:border-brand-taupe hover:text-brand-taupe disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-full border border-brand-black/15 px-4 py-2 text-xs font-accent font-medium text-brand-black/70 transition-colors hover:border-brand-gold hover:text-brand-gold disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Previous
               </button>
@@ -169,7 +169,7 @@ export default function ShopGrid({
                 type="button"
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page >= totalPages}
-                className="rounded-full border border-brand-black/15 px-4 py-2 text-xs font-accent font-medium text-brand-black/70 transition-colors hover:border-brand-taupe hover:text-brand-taupe disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-full border border-brand-black/15 px-4 py-2 text-xs font-accent font-medium text-brand-black/70 transition-colors hover:border-brand-gold hover:text-brand-gold disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Next
               </button>

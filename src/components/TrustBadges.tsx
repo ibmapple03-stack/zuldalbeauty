@@ -31,7 +31,7 @@ export default function TrustBadges() {
           key={b.title}
           className="flex flex-col items-center gap-2 rounded-2xl border border-brand-black/10 bg-brand-white p-5 text-center"
         >
-          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-sage/15 text-brand-sage-dark">
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-gold/15 text-brand-brown">
             <Icon name={b.icon} className="h-5 w-5" />
           </span>
           <p className="font-accent text-sm font-semibold text-brand-black">

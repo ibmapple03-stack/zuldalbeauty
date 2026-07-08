@@ -30,15 +30,32 @@ export default function Footer() {
   return (
     <footer className="mt-16 border-t border-brand-black/10 bg-brand-white">
       <div className="container-page grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
-        {trustPoints.map((point) => (
-          <div key={point.title} className="flex flex-col gap-2">
-            <Icon name={point.icon} className="h-6 w-6 text-brand-taupe" />
-            <p className="font-accent text-sm font-semibold text-brand-black">
-              {point.title}
-            </p>
-            <p className="text-xs text-brand-black/60">{point.body}</p>
-          </div>
-        ))}
+        {trustPoints.map((point) =>
+          point.icon === "headset" ? (
+            <Link
+              key={point.title}
+              href="/contact"
+              className="flex flex-col gap-2 group"
+            >
+              <Icon
+                name={point.icon}
+                className="h-6 w-6 text-brand-gold transition-colors group-hover:text-brand-gold-dark"
+              />
+              <p className="font-accent text-sm font-semibold text-brand-black group-hover:text-brand-gold-dark">
+                {point.title}
+              </p>
+              <p className="text-xs text-brand-black/60">{point.body}</p>
+            </Link>
+          ) : (
+            <div key={point.title} className="flex flex-col gap-2">
+              <Icon name={point.icon} className="h-6 w-6 text-brand-gold" />
+              <p className="font-accent text-sm font-semibold text-brand-black">
+                {point.title}
+              </p>
+              <p className="text-xs text-brand-black/60">{point.body}</p>
+            </div>
+          )
+        )}
       </div>
 
       <div className="border-t border-brand-black/10">
@@ -48,7 +65,7 @@ export default function Footer() {
             <p className="mt-4 text-sm text-brand-black/60">
               Curated with care. Chosen for results. Beauty for everyone.
             </p>
-            <p className="mt-1 font-heading italic text-brand-taupe">
+            <p className="mt-1 font-heading italic text-brand-gold">
               Wellness for life.
             </p>
           </div>
@@ -62,7 +79,7 @@ export default function Footer() {
                 <li key={cat.slug}>
                   <Link
                     href={`/shop/${cat.slug}`}
-                    className="text-sm text-brand-black/70 hover:text-brand-taupe"
+                    className="text-sm text-brand-black/70 hover:text-brand-gold"
                   >
                     {cat.name}
                   </Link>
@@ -77,13 +94,18 @@ export default function Footer() {
             </h4>
             <ul className="mt-4 space-y-2.5">
               <li>
-                <Link href="/shop" className="text-sm text-brand-black/70 hover:text-brand-taupe">
+                <Link href="/shop" className="text-sm text-brand-black/70 hover:text-brand-gold">
                   All Products
                 </Link>
               </li>
               <li>
-                <Link href="/cart" className="text-sm text-brand-black/70 hover:text-brand-taupe">
+                <Link href="/cart" className="text-sm text-brand-black/70 hover:text-brand-gold">
                   Your Cart
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-sm text-brand-black/70 hover:text-brand-gold">
+                  Contact Us
                 </Link>
               </li>
             </ul>
@@ -98,7 +120,7 @@ export default function Footer() {
               everyday essentials, everything we offer is chosen with care so
               you can shop with confidence and love what you use.
             </p>
-            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-brand-sage/20 px-3 py-1.5 text-[11px] font-accent font-semibold text-brand-sage-dark">
+            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-brand-gold/20 px-3 py-1.5 text-[11px] font-accent font-semibold text-brand-brown">
               <Icon name="shield" className="h-3.5 w-3.5" />
               Zuldal Approved. You Can Trust.
             </div>
@@ -106,7 +128,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-brand-black/10 bg-brand-black py-4">
+      <div className="border-t border-brand-black/10 bg-brand-brown py-4">
         <div className="container-page flex flex-col items-center justify-between gap-2 text-center text-xs text-brand-white/60 md:flex-row">
           <p>
             &copy; {new Date().getFullYear()} Zuldal Beauty &amp; Wellness. All

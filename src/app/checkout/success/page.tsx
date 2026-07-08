@@ -25,7 +25,7 @@ function SuccessContent() {
 
   return (
     <div className="container-page flex flex-col items-center gap-5 py-24 text-center">
-      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-sage/20 text-brand-sage-dark">
+      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-gold/20 text-brand-brown">
         <Icon name="shield" className="h-8 w-8" />
       </span>
       <h1 className="font-heading text-3xl text-brand-black md:text-4xl">
@@ -58,13 +58,13 @@ function SuccessContent() {
       <div className="mt-2 flex flex-wrap justify-center gap-3">
         <Link
           href="/shop"
-          className="rounded-full bg-brand-black px-6 py-3 font-accent text-sm font-semibold text-brand-white hover:bg-brand-taupe"
+          className="rounded-full bg-brand-brown px-6 py-3 font-accent text-sm font-semibold text-brand-white hover:bg-brand-gold"
         >
           Continue Shopping
         </Link>
         <Link
           href="/"
-          className="rounded-full border border-brand-black/15 px-6 py-3 font-accent text-sm font-semibold text-brand-black hover:border-brand-taupe hover:text-brand-taupe"
+          className="rounded-full border border-brand-black/15 px-6 py-3 font-accent text-sm font-semibold text-brand-black hover:border-brand-gold hover:text-brand-gold"
         >
           Back to Home
         </Link>
