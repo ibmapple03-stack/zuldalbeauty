@@ -19,7 +19,7 @@ function paymentLabel(value: string | null) {
 
 function SuccessContent() {
   const params = useSearchParams();
-  const order = params.get("order") ?? "NB-000000";
+  const order = params.get("order") ?? "ZB-000000";
   const total = Number(params.get("total") ?? 0);
   const payment = paymentLabel(params.get("payment"));
 

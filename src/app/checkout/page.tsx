@@ -113,7 +113,7 @@ export default function CheckoutPage() {
     setPlacing(true);
 
     const formData = new FormData(e.currentTarget);
-    const orderNumber = `NB-${Date.now().toString().slice(-6)}`;
+    const orderNumber = `ZB-${Date.now().toString().slice(-6)}`;
     const email = String(formData.get("email") ?? "");
 
     const { data: order, error: orderError } = await supabase
