@@ -24,12 +24,12 @@ export default function ProductImage({
 
   if (src) {
     return (
-      <div className={`relative overflow-hidden ${className}`}>
+      <div className={`relative overflow-hidden bg-white ${className}`}>
         {/* eslint-disable-next-line @next/next/no-img-element -- external Supabase Storage URLs, not local assets */}
         <img
           src={src}
           alt={product.name}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain"
         />
       </div>
     );

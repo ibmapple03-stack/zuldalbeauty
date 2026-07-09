@@ -109,7 +109,7 @@ export default function ProductDetail({ id }: { id: string }) {
                   type="button"
                   onClick={() => setActiveImage(index)}
                   aria-label={`Show photo ${index + 1}`}
-                  className={`h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-colors ${
+                  className={`h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 bg-white transition-colors ${
                     index === activeImage
                       ? "border-brand-gold"
                       : "border-transparent hover:border-brand-black/15"
@@ -119,7 +119,7 @@ export default function ProductDetail({ id }: { id: string }) {
                   <img
                     src={url}
                     alt=""
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain"
                   />
                 </button>
               ))}
