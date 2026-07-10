@@ -90,7 +90,9 @@ export default function CheckoutPage() {
       }
 
       clearCart();
-      router.push(`/checkout/success?order=${order.orderNumber}&total=${total}&payment=${order.method}`);
+      router.push(
+        `/checkout/success?order=${order.orderNumber}&total=${total}&payment=${order.method}&email=${encodeURIComponent(order.email)}`
+      );
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Something went wrong starting payment.");
       setPayingWithPaystack(false);
@@ -176,7 +178,7 @@ export default function CheckoutPage() {
 
     clearCart();
     router.push(
-      `/checkout/success?order=${orderNumber}&total=${total}&payment=${payment}`
+      `/checkout/success?order=${orderNumber}&total=${total}&payment=${payment}&email=${encodeURIComponent(email)}`
     );
   }
 

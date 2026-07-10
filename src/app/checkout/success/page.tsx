@@ -22,6 +22,7 @@ function SuccessContent() {
   const order = params.get("order") ?? "ZB-000000";
   const total = Number(params.get("total") ?? 0);
   const payment = paymentLabel(params.get("payment"));
+  const email = params.get("email") ?? "";
 
   return (
     <div className="container-page flex flex-col items-center gap-5 py-24 text-center">
@@ -62,6 +63,14 @@ function SuccessContent() {
         >
           Continue Shopping
         </Link>
+        {email && (
+          <Link
+            href={`/orders?order=${encodeURIComponent(order)}&email=${encodeURIComponent(email)}`}
+            className="rounded-full border border-brand-black/15 px-6 py-3 font-accent text-sm font-semibold text-brand-black hover:border-brand-gold hover:text-brand-gold"
+          >
+            Track This Order
+          </Link>
+        )}
         <Link
           href="/"
           className="rounded-full border border-brand-black/15 px-6 py-3 font-accent text-sm font-semibold text-brand-black hover:border-brand-gold hover:text-brand-gold"
