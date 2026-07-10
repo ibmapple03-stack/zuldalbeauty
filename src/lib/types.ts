@@ -18,7 +18,8 @@ export type IconName =
   | "truck"
   | "headset"
   | "globe"
-  | "flame";
+  | "flame"
+  | "search";
 
 export interface Category {
   slug: CategorySlug;

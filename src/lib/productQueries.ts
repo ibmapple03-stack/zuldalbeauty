@@ -1,8 +1,23 @@
 import { supabase } from "./supabase";
-import { Product, CategorySlug } from "./types";
+import { Product, CategorySlug, IconName } from "./types";
 import { rowToProduct, ProductRow } from "./productMappers";
 
 export type SortKey = "featured" | "newest" | "price-asc" | "price-desc" | "rating";
+
+// Builds a PostgREST .or() filter string matching a search term against
+// name/brand/description text columns plus an exact-match on the tags
+// array (PostgREST's array operators can't do substring matches inside
+// array elements, so "vegan" matches a "vegan" tag but "veg" won't).
+function buildSearchFilter(term: string): string {
+  const escaped = term.replace(/"/g, '\\"');
+  return [
+    `name.ilike."%${escaped}%"`,
+    `brand.ilike."%${escaped}%"`,
+    `short_description.ilike."%${escaped}%"`,
+    `description.ilike."%${escaped}%"`,
+    `tags.cs.{"${escaped}"}`,
+  ].join(",");
+}
 
 export async function fetchProductsPage(opts: {
   category?: CategorySlug;
@@ -19,8 +34,7 @@ export async function fetchProductsPage(opts: {
 
   if (category) query = query.eq("category", category);
   if (search && search.trim()) {
-    const term = search.trim();
-    query = query.or(`name.ilike.%${term}%,brand.ilike.%${term}%`);
+    query = query.or(buildSearchFilter(search.trim()));
   }
 
   switch (sort) {
@@ -53,6 +67,52 @@ export async function fetchProductsPage(opts: {
     products: (data as ProductRow[]).map(rowToProduct),
     totalCount: count ?? 0,
   };
+}
+
+export interface ProductSearchResult {
+  id: string;
+  name: string;
+  brand: string;
+  price: number;
+  category: CategorySlug;
+  icon: IconName;
+  imageUrl: string | null;
+}
+
+export async function searchProductsTypeahead(
+  term: string,
+  limit = 6
+): Promise<ProductSearchResult[]> {
+  const trimmed = term.trim();
+  if (!trimmed) return [];
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("id, name, brand, price, category, icon, image_urls")
+    .or(buildSearchFilter(trimmed))
+    .order("featured", { ascending: false })
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error || !data) {
+    if (error) console.error("Failed to search products:", error.message);
+    return [];
+  }
+
+  return (
+    data as Pick<
+      ProductRow,
+      "id" | "name" | "brand" | "price" | "category" | "icon" | "image_urls"
+    >[]
+  ).map((row) => ({
+    id: row.id,
+    name: row.name,
+    brand: row.brand,
+    price: row.price,
+    category: row.category,
+    icon: row.icon,
+    imageUrl: row.image_urls?.[0] ?? null,
+  }));
 }
 
 export async function fetchProductById(id: string): Promise<Product | null> {

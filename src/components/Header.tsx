@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
 import Icon from "./icons";
+import SearchBar from "./SearchBar";
 import { useCart } from "@/context/CartContext";
 import { categories } from "@/lib/categories";
 
@@ -23,23 +24,26 @@ export default function Header() {
       <div className="container-page flex items-center justify-between gap-4 py-3">
         <Logo />
 
-        <nav className="hidden lg:flex items-center gap-6">
-          {categories.map((cat) => (
+        <div className="hidden lg:flex items-center gap-6">
+          <nav className="flex items-center gap-6">
+            {categories.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={`/shop/${cat.slug}`}
+                className="font-accent text-sm font-medium text-brand-black/80 hover:text-brand-gold transition-colors"
+              >
+                {cat.name}
+              </Link>
+            ))}
             <Link
-              key={cat.slug}
-              href={`/shop/${cat.slug}`}
+              href="/shop"
               className="font-accent text-sm font-medium text-brand-black/80 hover:text-brand-gold transition-colors"
             >
-              {cat.name}
+              All Products
             </Link>
-          ))}
-          <Link
-            href="/shop"
-            className="font-accent text-sm font-medium text-brand-black/80 hover:text-brand-gold transition-colors"
-          >
-            All Products
-          </Link>
-        </nav>
+          </nav>
+          <SearchBar className="w-56 xl:w-64" />
+        </div>
 
         <div className="flex items-center gap-2">
           <Link
@@ -73,6 +77,7 @@ export default function Header() {
       {menuOpen && (
         <nav className="lg:hidden border-t border-brand-black/10 bg-brand-white">
           <div className="container-page flex flex-col py-3">
+            <SearchBar className="mb-3" />
             {categories.map((cat) => (
               <Link
                 key={cat.slug}

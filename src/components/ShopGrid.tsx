@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { categories } from "@/lib/categories";
 import { CategorySlug, Product } from "@/lib/types";
 import { fetchProductsPage, SortKey } from "@/lib/productQueries";
@@ -19,11 +20,9 @@ const sortOptions: { value: SortKey; label: string }[] = [
   { value: "rating", label: "Top Rated" },
 ];
 
-export default function ShopGrid({
-  category,
-}: {
-  category?: CategorySlug;
-}) {
+function ShopGridContent({ category }: { category?: CategorySlug }) {
+  const searchParams = useSearchParams();
+  const q = searchParams.get("q") ?? "";
   const [sort, setSort] = useState<SortKey>("featured");
   const [page, setPage] = useState(1);
   const [products, setProducts] = useState<Product[]>([]);
@@ -35,15 +34,15 @@ export default function ShopGrid({
     : undefined;
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset pagination when the filter/sort changes
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset pagination when the filter/sort/search changes
     setPage(1);
-  }, [category, sort]);
+  }, [category, sort, q]);
 
   useEffect(() => {
     let cancelled = false;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- kicking off a fetch triggered by dependency change
     setLoading(true);
-    fetchProductsPage({ category, sort, page, pageSize: PAGE_SIZE }).then(
+    fetchProductsPage({ category, sort, search: q, page, pageSize: PAGE_SIZE }).then(
       ({ products, totalCount }) => {
         if (cancelled) return;
         setProducts(products);
@@ -54,7 +53,7 @@ export default function ShopGrid({
     return () => {
       cancelled = true;
     };
-  }, [category, sort, page]);
+  }, [category, sort, q, page]);
 
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
 
@@ -80,12 +79,22 @@ export default function ShopGrid({
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="font-heading text-3xl text-brand-black md:text-4xl">
-            {activeCategory ? activeCategory.name : "All Products"}
+            {q
+              ? "Search Results"
+              : activeCategory
+                ? activeCategory.name
+                : "All Products"}
           </h1>
           <p className="mt-1 max-w-xl text-sm text-brand-black/60">
-            {activeCategory
-              ? activeCategory.description
-              : "Browse our full curated marketplace of skincare, haircare, fragrance and wellness essentials."}
+            {q ? (
+              <>
+                Showing results for &ldquo;{q}&rdquo;
+              </>
+            ) : activeCategory ? (
+              activeCategory.description
+            ) : (
+              "Browse our full curated marketplace of skincare, haircare, fragrance and wellness essentials."
+            )}
           </p>
         </div>
 
@@ -180,13 +189,23 @@ export default function ShopGrid({
         <div className="mt-16 flex flex-col items-center gap-3 text-center">
           <Icon name="cart" className="h-10 w-10 text-brand-black/20" />
           <p className="font-heading text-xl text-brand-black/70">
-            No products here yet
+            {q ? `No products match "${q}"` : "No products here yet"}
           </p>
           <p className="text-sm text-brand-black/50">
-            Check back soon — admins are always adding new products.
+            {q
+              ? "Try a different search term or browse a category."
+              : "Check back soon — admins are always adding new products."}
           </p>
         </div>
       )}
     </div>
+  );
+}
+
+export default function ShopGrid({ category }: { category?: CategorySlug }) {
+  return (
+    <Suspense fallback={<div className="container-page py-10" />}>
+      <ShopGridContent category={category} />
+    </Suspense>
   );
 }

@@ -47,6 +47,13 @@ const paths: Record<IconName, React.ReactNode> = {
   flame: (
     <path d="M12.5 2c1 3-1.9 4.3-2.7 6.7-.4 1.2-.2 2.3.3 3.1-1-.2-2-1-2.4-2.2C6 12 6 15.2 8 17.4A6.5 6.5 0 0 0 12.6 22 6 6 0 0 0 18 15.8c-.2-2.6-1.6-4-2.9-5.5-1.6-1.9-3-3.6-2.6-8.3Z" />
   ),
+  search: (
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M9 3a6 6 0 104.06 10.44l4.75 4.75a1 1 0 001.42-1.42l-4.75-4.75A6 6 0 009 3Zm-4 6a4 4 0 118 0 4 4 0 01-8 0Z"
+    />
+  ),
 };
 
 export default function Icon({ name, className = "h-5 w-5" }: IconProps) {
