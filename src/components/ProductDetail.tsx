@@ -10,6 +10,7 @@ import ProductImage from "./ProductImage";
 import ProductCard from "./ProductCard";
 import AddToCartButton from "./AddToCartButton";
 import StarRating from "./StarRating";
+import ReviewsSection from "./ReviewsSection";
 import Icon from "./icons";
 import BackButton from "./BackButton";
 
@@ -39,6 +40,11 @@ export default function ProductDetail({ id }: { id: string }) {
       cancelled = true;
     };
   }, [id]);
+
+  async function handleReviewSubmitted() {
+    const refreshed = await fetchProductById(id);
+    if (refreshed) setProduct(refreshed);
+  }
 
   if (loading) {
     return (
@@ -196,6 +202,8 @@ export default function ProductDetail({ id }: { id: string }) {
           </div>
         </div>
       </div>
+
+      <ReviewsSection productId={product.id} onReviewSubmitted={handleReviewSubmitted} />
 
       {related.length > 0 && (
         <div className="mt-16">

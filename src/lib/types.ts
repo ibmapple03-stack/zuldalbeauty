@@ -29,6 +29,15 @@ export interface Category {
   icon: IconName;
 }
 
+export interface Review {
+  id: string;
+  productId: string;
+  customerName: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
+
 export interface Product {
   id: string;
   name: string;
